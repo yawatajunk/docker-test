@@ -1,0 +1,8 @@
+# pipでインストールするpythonモジュールを記述する
+
+# 今回はこれだけ
+bottle  # WSGI対応Webサーバ
+
+# その他、Webアプリに必要なモジュールがあれば記述する
+# requests
+# mysql--connector

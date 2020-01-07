@@ -1,0 +1,44 @@
+version: '3'
+services:
+  mysql:
+    build: ./mysql
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql_root_password
+      MYSQL_DATABASE: wordpress_db_name
+      MYSQL_USER: wordpress_user
+      MYSQL_PASSWORD: wordpres_user_password
+          
+  phpmyadmin:
+    build: ./phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=mysql_root_password
+    restart: always
+    links:
+      - mysql
+    ports:
+      - 8081:80   # phpMyAdminのポート番号は8081
+
+  wordpress:
+    build: ./wordpress
+    depends_on:
+      - mysql
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: wordpress_user
+      WORDPRESS_DB_PASSWORD: wordpres_user_password
+      WORDPRESS_DB_NAME: wordpress_db_name
+    volumes:
+      - wordpress-volume:/var/www/html
+    ports:
+      - 8080:80 # WordPressのポート番号は8080
+      
+volumes:
+  mysql-volume:     # MySQLのデータを格納する
+  wordpress-volume: # WordPressのデータを格納する
