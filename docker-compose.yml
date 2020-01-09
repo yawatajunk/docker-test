@@ -1,5 +1,21 @@
 version: '3'
 services:
+  https-portal:
+    build: ./https-portal
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    environment:
+      # ローカルで実験するとき
+      DOMAINS: 'localhost -> http://wordpress'
+      STAGE: local      # 自己発行なんちゃって証明書
+      # 本番環境のとき
+      # DOMAINS: 'your-domain.name -> http://wordpress'
+      # STAGE: production # Let's Encryptから証明書を自動取得!
+    volumes:
+      - ./https-portal/cert:/var/lib/https-portal
+
   mysql:
     build: ./mysql
     volumes:

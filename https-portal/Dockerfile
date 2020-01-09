@@ -1,3 +1,3 @@
 # ベースとなるDockerイメージ
-FROM mysql:5.7
+FROM steveltn/https-portal:1
 # 他にやること無し
